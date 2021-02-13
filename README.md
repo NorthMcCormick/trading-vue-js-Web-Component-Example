@@ -19,11 +19,26 @@ This repo is just an example. To use these clone the repo and apply the code to 
 `/public/index.html`: The actual javascript example of how to use the custom web component. To implement the component in your own code you would import the dist js and implement your element.
 `/data/data.json`: Sample data
 
+## Building and using
+
+If you want to serve for development use `npm run serve`
+
+If you want to build and import the files for production use this: `npx vue-cli-service build --target lib --name trading-vue-wc src/main.js`
+
+After running this you will have .umd.js and .common.js files. If you want to just drop this in a web page include vue and the UMD like so: 
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="assets/js/trading-vue-wc.umd.js" async deferred></script>
+```
+
+Use the .min for production.
+
 ## Ideas
 
-- Is there a way to create types for this all?
+- Is there a way to create types for this?
 - Someone who is a lot more familiar may be able to build a wrapper that matches the API for trading-vue(?) eliminating the need for a custom wrapper. Can that be done with the overlays and all??
-- Add an examples of this being used in other works like Angular, React, StencilJS?
+- Add an examples of this being used in other works like Angular, React, StencilJS? 
 
 ## Project setup
 ```

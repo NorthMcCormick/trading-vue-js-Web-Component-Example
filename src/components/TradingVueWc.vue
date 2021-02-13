@@ -10,7 +10,7 @@
 
 <script>
 import TradingVue from 'trading-vue-js';
-import Data from '../../data/data.json';
+import Data from './data.json';
 
 export default {
     name: 'TradingVueWc',
