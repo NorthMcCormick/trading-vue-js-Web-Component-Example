@@ -5,6 +5,20 @@
     <script src="dist/build.js" async deferred></script>
   </head>
   <body>
-    <trading-vue></trading-vue>
+    <div style="width: 100%; height: 100%;">
+      <trading-vue></trading-vue>
+
+      <script type="text/javascript">
+        var tradingVue = document.getElementsByTagName('trading-vue')[0];
+  
+        fetch('./data.json').then((response) => {
+          return response.json();
+        }).then((response) => {
+          console.log(response);
+          
+          tradingVue.chart = response;
+        })
+      </script>
+    </div>
   </body>
 </html>

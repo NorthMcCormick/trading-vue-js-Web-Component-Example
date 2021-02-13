@@ -6749,7 +6749,7 @@
         },
         {
             "name": "Trades",
-            "type": "Trades",
+            "type": "PerfectTrades",
             "data": [
                 [
                     1552550400000,
