@@ -1,7 +1,7 @@
 <template>
 <!-- TradingVueJs 101 (example from 'Getting Started' ) -->
 
-<trading-vue ref="chartPrimary" :data="chart" :width="this.width" :height="this.height"
+<trading-vue ref="chartPrimary" :data="chart" :width="this.width" :height="this.height" :titleTxt="this.titleText"
     :color-back="colors.colorBack"
     :color-grid="colors.colorGrid"
     :color-text="colors.colorText"
@@ -50,6 +50,9 @@ export default {
                 return {};
             },
 
+        },
+        titleText: {
+            default: ''
         }
     },
     data() {
