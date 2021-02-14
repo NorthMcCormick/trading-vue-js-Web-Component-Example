@@ -1,17 +1,18 @@
 <template>
 <!-- TradingVueJs 101 (example from 'Getting Started' ) -->
 
-<trading-vue ref="chartPrimary" :data="chart" :width="this.width" :height="this.height" :titleTxt="this.titleText"
+<trading-vue ref="chartPrimary" :data="dataCube()" :width="this.width" :height="this.height" :titleTxt="this.titleText"
     :color-back="colors.colorBack"
     :color-grid="colors.colorGrid"
     :color-text="colors.colorText"
     :overlays="overlays"
-    :night="night">
+    :night="night"
+    :toolbar="toolbar">
 </trading-vue>
 </template>
 
 <script>
-import TradingVue from 'trading-vue-js';
+import { TradingVue, DataCube } from 'trading-vue-js';
 
 import Overlays from 'tvjs-overlays'
 
@@ -53,6 +54,9 @@ export default {
         },
         titleText: {
             default: ''
+        },
+        toolbar: {
+            default: false
         }
     },
     data() {
@@ -61,7 +65,17 @@ export default {
             height:  0,
             night: true,
             ro: null,
-            overlays: Object.values(Overlays)
+            overlays: Object.values(Overlays),
+            dataCube() {
+                return new DataCube(this.chart)
+            }
+        }
+    },
+    watch: {
+        chart: function() {
+            // Toolbar Disappears when data is loaded asynchronously
+            // see https://github.com/tvjsx/trading-vue-js/issues/119
+            this.$refs.chartPrimary.resetChart();
         }
     }
 }
