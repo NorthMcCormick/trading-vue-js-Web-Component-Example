@@ -1,14 +1,10 @@
 <script>
 import { Overlay } from 'trading-vue-js'
-import Price from './Price.js'
 
 export default {
     name: 'Alarms',
     mixins: [Overlay],
     methods: {
-        init() {
-            this.price = new Price(this)
-        },
         meta_info() {
             return { author: 'North', version: '1.0.0' }
         },
@@ -29,9 +25,7 @@ export default {
                 ctx.lineTo(this.layout.width, y)
                 ctx.stroke()
                 
-                if (p[1]) this.draw_label(ctx, this.layout.width * 0.2, p)
-
-                this.price.draw(ctx, pos)
+                if (p[1]) this.draw_label(ctx, 0, p)
             })
         },
         draw_label(ctx, x, p) {
@@ -42,6 +36,11 @@ export default {
             let w = ctx.measureText(p[1]).width + 10
             let pos = p[4] || this.y_position
             let y = layout.$2screen(pos);
+
+            if (p[2] == 0) {
+                x += w + 25;
+            }
+            // x += w;
 
             ctx.fillStyle = p[3] || this.flag_color
             ctx.beginPath()
@@ -81,11 +80,6 @@ export default {
         },
         y_position() {
             return this.sett.yPosition || 0.9
-        }
-    },
-    data() {
-        return {
-            price: {}
         }
     }
 }
