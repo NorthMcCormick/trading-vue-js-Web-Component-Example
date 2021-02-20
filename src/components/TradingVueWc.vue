@@ -14,7 +14,8 @@
 <script>
 import { TradingVue, DataCube } from 'trading-vue-js';
 
-import Overlays from 'tvjs-overlays'
+
+import Alarms from './Alarms.vue';
 
 export default {
     name: 'TradingVueWc',
@@ -26,6 +27,7 @@ export default {
         }
     },
     mounted() {
+        console.log('Mounted :)');
         this.onResize();
 
         this.ro = new ResizeObserver(this.onResize).observe(this.$refs.chartPrimary.$el.parentElement.parentElement);
@@ -57,6 +59,9 @@ export default {
         },
         toolbar: {
             default: false
+        },
+        timeFrame: {
+            default: '1h'
         }
     },
     data() {
@@ -65,7 +70,10 @@ export default {
             height:  0,
             night: true,
             ro: null,
-            overlays: Object.values(Overlays),
+            overlays: [
+                // ...Object.values(Overlays),
+                Alarms
+            ],
             dataCube() {
                 return new DataCube(this.chart)
             }
@@ -75,7 +83,14 @@ export default {
         chart: function() {
             // Toolbar Disappears when data is loaded asynchronously
             // see https://github.com/tvjsx/trading-vue-js/issues/119
-            this.$refs.chartPrimary.resetChart();
+            //this.$refs.chartPrimary.resetChart();
+        },
+        timeFrame: function() {
+            console.log('Timeframe changed');
+            
+            setTimeout(() => {
+                this.$refs.chartPrimary.resetChart(true);
+            }, 500)
         }
     }
 }
