@@ -1,7 +1,7 @@
 <template>
 <!-- TradingVueJs 101 (example from 'Getting Started' ) -->
 
-<trading-vue ref="chartPrimary" :data="dataCube()" :width="this.width" :height="this.height" :titleTxt="this.titleText"
+<trading-vue ref="chartPrimary" :data="dataCube" :width="this.width" :height="this.height" :titleTxt="this.titleText"
     :color-back="colors.colorBack"
     :color-grid="colors.colorGrid"
     :color-text="colors.colorText"
@@ -24,6 +24,27 @@ export default {
         onResize() {
             this.width = this.$refs.chartPrimary.$el.parentElement.parentElement.clientWidth;
             this.height = this.$refs.chartPrimary.$el.parentElement.parentElement.clientHeight;
+        },
+        addCandles(candles) {
+            if (this.init) {
+                for (const candle of candles) {
+                    console.log('Updating candle', candle);
+                    
+                    this.dataCube.update({
+                        candle: candle
+                    })
+                }
+            } else {
+                this.dataCube.set('chart.data', candles);
+
+                this.init = true;
+            }
+        },
+        reset() {
+            this.dataCube.agg.clear()
+            this.dataCube.set('chart.data', [])
+
+            this.init = false;
         }
     },
     mounted() {
@@ -66,6 +87,7 @@ export default {
     },
     data() {
         return {
+            init: false,
             width:  0,
             height:  0,
             night: true,
@@ -74,23 +96,18 @@ export default {
                 // ...Object.values(Overlays),
                 Alarms
             ],
-            dataCube() {
-                return new DataCube(this.chart)
-            }
+            dataCube: new DataCube(this.chart)
         }
     },
     watch: {
-        chart: function() {
+        chart: function(a, b) {
+            console.log('AB', a, b);
             // Toolbar Disappears when data is loaded asynchronously
             // see https://github.com/tvjsx/trading-vue-js/issues/119
-            //this.$refs.chartPrimary.resetChart();
+            this.$refs.chartPrimary.resetChart(false);
         },
         timeFrame: function() {
             console.log('Timeframe changed');
-            
-            setTimeout(() => {
-                this.$refs.chartPrimary.resetChart(true);
-            }, 500)
         }
     }
 }
